@@ -10,6 +10,26 @@ class ArticlesController < ApplicationController
     render json: @article, status: :created, location: article_path(@article)
   end
 
+  def update
+    @article = Article.find_by(id: params[:id])
+    if @article
+      @article.update(article_params)
+      render status: :no_content
+    else
+      render status: :not_found
+    end
+  end
+
+  def destroy
+    @article = Article.find_by(id: params[:id])
+    if @article
+      @article.destroy
+      render status: :no_content
+    else
+      render status: :not_found
+    end
+  end
+
   private
 
   def article_params
