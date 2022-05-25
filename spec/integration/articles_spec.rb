@@ -86,6 +86,8 @@ describe 'Articles API ' do
       parameter name: :page, in: :query, type: :integer
       parameter name: :'filter_ids[]', in: :query, type: :array, collectionFormat: :multi
       parameter name: :filter_title_contains, in: :query, type: :string
+      parameter name: :order_by, in: :query, type: :string
+      parameter name: :order_direction, in: :query, type: :string
 
       response '200', 'lists articles' do
         run_test!
@@ -110,6 +112,20 @@ describe 'Articles API ' do
       }
 
       response '201', 'article created' do
+        schema(
+          type: :object,
+          properties: {
+            id: { type: :integer },
+            title: { type: :string },
+            abstract: { type: :string },
+            content: { type: :string },
+            url: { type: :string },
+            image_url: { type: :string },
+            publish_date: { type: :string },
+            created_at: { type: :string },
+            updated_at: { type: :string }
+          }
+        )
         let(:article) { attributes_for(:article) }
 
         run_test!
@@ -117,5 +133,3 @@ describe 'Articles API ' do
     end
   end
 end
-
-

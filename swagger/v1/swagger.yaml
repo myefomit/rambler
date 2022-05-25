@@ -111,6 +111,14 @@ paths:
         in: query
         schema:
           type: string
+      - name: order_by
+        in: query
+        schema:
+          type: string
+      - name: order_direction
+        in: query
+        schema:
+          type: string
       responses:
         '200':
           description: lists articles
@@ -122,6 +130,29 @@ paths:
       responses:
         '201':
           description: article created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  abstract:
+                    type: string
+                  content:
+                    type: string
+                  url:
+                    type: string
+                  image_url:
+                    type: string
+                  publish_date:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
       requestBody:
         content:
           application/json:

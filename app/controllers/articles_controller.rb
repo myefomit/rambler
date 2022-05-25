@@ -1,10 +1,12 @@
 class ArticlesController < ApplicationController
   include Filterable
+  include Orderable
 
   PER_PAGE = 10
 
   def index
     @articles = apply_filters(Article.all, params)
+    @articles = apply_order(@articles, params)
     paginate json: @articles, per_page: PER_PAGE
   end
 
@@ -46,6 +48,10 @@ class ArticlesController < ApplicationController
 
   def filters
     { filter_ids: Array, filter_title_contains: String }
+  end
+
+  def orderers
+    %w[id title abstract content url image_url publish_date]
   end
 
   def article_params
