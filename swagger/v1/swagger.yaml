@@ -216,6 +216,84 @@ paths:
                 publish_date:
                   type: string
               required: true
+  "/tags/{id}":
+    delete:
+      summary: deletes tag
+      tags:
+      - Tags
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: deleted
+        '404':
+          description: not found
+    put:
+      summary: updates tag
+      tags:
+      - Tags
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: updated
+        '404':
+          description: not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                slug:
+                  type: string
+              required: true
+  "/tags":
+    get:
+      summary: retreieves all tags
+      tags:
+      - Tags
+      responses:
+        '200':
+          description: lists tags
+    post:
+      summary: creates new tag
+      tags:
+      - Tags
+      parameters: []
+      responses:
+        '201':
+          description: tag created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  slug:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                slug:
+                  type: string
+              required: true
 servers:
 - url: http://{defaultHost}
   variables:
