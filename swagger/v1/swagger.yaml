@@ -4,6 +4,62 @@ info:
   title: API V1
   version: v1
 paths:
+  "/article_tags/{id}":
+    delete:
+      summary: deletes article_tags
+      tags:
+      - ArticleTags
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: deleted
+        '404':
+          description: not found
+  "/article_tags":
+    get:
+      summary: retrieves all article_tags
+      tags:
+      - ArticleTags
+      responses:
+        '200':
+          description: lists article_tags
+    post:
+      summary: creates new article_tag
+      tags:
+      - ArticleTags
+      parameters: []
+      responses:
+        '201':
+          description: article_tag created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  article_id:
+                    type: integer
+                  tag_id:
+                    type: integer
+        '422':
+          description: cannot process article_tag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                article_id:
+                  type: integer
+                tag_id:
+                  type: integer
+              required: true
   "/articles/{id}":
     put:
       summary: updates article
@@ -279,6 +335,8 @@ paths:
               schema:
                 type: object
                 properties:
+                  id:
+                    type: integer
                   title:
                     type: string
                   slug:

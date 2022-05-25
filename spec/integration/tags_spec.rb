@@ -75,6 +75,7 @@ describe 'Tags API' do
         schema({
           type: :object,
           properties: {
+            id: { type: :integer },
             title: { type: :string },
             slug: { type: :string }
           }
