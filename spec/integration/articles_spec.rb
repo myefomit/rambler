@@ -83,11 +83,11 @@ describe 'Articles API ' do
     get 'retrieves all articles' do
       tags 'Articles'
       produces 'application/json'
-      parameter name: :page, in: :query, type: :integer
-      parameter name: :'filter_ids[]', in: :query, type: :array, collectionFormat: :multi
-      parameter name: :filter_title_contains, in: :query, type: :string
-      parameter name: :order_by, in: :query, type: :string
-      parameter name: :order_direction, in: :query, type: :string
+      parameter name: :page, in: :query, type: :integer, required: false
+      parameter name: :'filter_ids[]', in: :query, type: :array, collectionFormat: :multi, required: false
+      parameter name: :filter_title_contains, in: :query, type: :string, required: false
+      parameter name: :order_by, in: :query, type: :string, required: false
+      parameter name: :order_direction, in: :query, type: :string, required: false
 
       response '200', 'lists articles' do
         run_test!

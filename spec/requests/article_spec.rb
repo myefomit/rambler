@@ -17,10 +17,42 @@ RSpec.describe '/articles', type: :request do
 
     context 'when some entities' do
       let!(:articles) { create_list :article, 5 }
+      let(:parsed_body) { JSON.parse(subject.body) }
       before { get path }
 
       it 'returns entities' do
         expect(subject.body).to eq(articles.to_json)
+      end
+
+      context 'when ids filter' do
+        let!(:id) { create(:article).id }
+        let(:path) { "/articles?filter_ids[]=#{id}" }
+
+        it 'returns correct article' do
+          expect(Article.count).to eq(6)
+          expect(parsed_body.count).to eq(1)
+          expect(parsed_body.first['id']).to eq(id)
+        end
+      end
+
+      context 'when title_contains filter' do
+        let!(:article) { create(:article, title: 'un1qu3 t1tl3') }
+        let(:path) { "/articles?filter_title_contains=#{article.title[1,5]}" }
+
+        it 'returns correct article' do
+          expect(Article.count).to eq(6)
+          expect(parsed_body.count).to eq(1)
+          expect(parsed_body.first['title']).to eq(article.title)
+        end
+      end
+
+      context 'when ordered by id desc' do
+        let(:path) { '/articles?order_by=id&order_direction=desc' }
+
+        it 'returns articles in correct order' do
+          expect(Article.count).to eq(5)
+          expect(parsed_body.map { |h| h['id'] }).to eq(Article.order(id: :desc).pluck(:id))
+        end
       end
     end
   end
