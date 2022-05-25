@@ -1,5 +1,22 @@
 require 'swagger_helper'
 
+def article_response_schema
+  {
+    type: :object,
+    properties: {
+      id: { type: :integer },
+      title: { type: :string },
+      abstract: { type: :string },
+      content: { type: :string },
+      url: { type: :string },
+      image_url: { type: :string },
+      publish_date: { type: :string },
+      created_at: { type: :string },
+      updated_at: { type: :string }
+    }
+  }
+end
+
 describe 'Articles API ' do
   path '/articles/{id}' do
     put 'updates article' do
@@ -53,20 +70,7 @@ describe 'Articles API ' do
       parameter name: :id, in: :path, type: :string
 
       response '200', 'article found' do
-        schema(
-          type: :object,
-          properties: {
-            id: { type: :integer },
-            title: { type: :string },
-            abstract: { type: :string },
-            content: { type: :string },
-            url: { type: :string },
-            image_url: { type: :string },
-            publish_date: { type: :string },
-            created_at: { type: :string },
-            updated_at: { type: :string }
-          }
-        )
+        schema article_response_schema
         let(:id) { create(:article).id }
 
         run_test!
@@ -74,6 +78,28 @@ describe 'Articles API ' do
 
       response '404', 'article not found' do
         let(:id) { 'record_not_found' }
+        run_test!
+      end
+    end
+  end
+
+  path '/article_url' do
+    get 'retreieve article by url' do
+      tags 'Articles'
+      produces 'application/json'
+      parameter name: :q, in: :query, type: :string, required: true
+
+      response '200', 'found article' do
+        schema article_response_schema
+        let!(:url) { create(:article).url }
+        let(:q) { url }
+
+        run_test!
+      end
+
+      response '404', 'not found' do
+        let(:q) { 'record_not_found' }
+
         run_test!
       end
     end
@@ -112,20 +138,7 @@ describe 'Articles API ' do
       }
 
       response '201', 'article created' do
-        schema(
-          type: :object,
-          properties: {
-            id: { type: :integer },
-            title: { type: :string },
-            abstract: { type: :string },
-            content: { type: :string },
-            url: { type: :string },
-            image_url: { type: :string },
-            publish_date: { type: :string },
-            created_at: { type: :string },
-            updated_at: { type: :string }
-          }
-        )
+        schema article_response_schema
         let(:article) { attributes_for(:article) }
 
         run_test!

@@ -92,6 +92,45 @@ paths:
                     type: string
         '404':
           description: article not found
+  "/article_url":
+    get:
+      summary: retreieve article by url
+      tags:
+      - Articles
+      parameters:
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: found article
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  abstract:
+                    type: string
+                  content:
+                    type: string
+                  url:
+                    type: string
+                  image_url:
+                    type: string
+                  publish_date:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+        '404':
+          description: not found
   "/articles":
     get:
       summary: retrieves all articles
@@ -100,23 +139,28 @@ paths:
       parameters:
       - name: page
         in: query
+        required: false
         schema:
           type: integer
       - name: filter_ids[]
         in: query
         collectionFormat: multi
+        required: false
         schema:
           type: array
       - name: filter_title_contains
         in: query
+        required: false
         schema:
           type: string
       - name: order_by
         in: query
+        required: false
         schema:
           type: string
       - name: order_direction
         in: query
+        required: false
         schema:
           type: string
       responses:

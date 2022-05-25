@@ -4,6 +4,15 @@ class ArticlesController < ApplicationController
 
   PER_PAGE = 10
 
+  def find_by_url
+    @article = Article.find_by(url: params[:q])
+    if @article
+      render json: @article, status: :ok
+    else
+      render status: :not_found
+    end
+  end
+
   def index
     @articles = apply_filters(Article.all, params)
     @articles = apply_order(@articles, params)

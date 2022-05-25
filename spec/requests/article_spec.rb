@@ -17,8 +17,10 @@ RSpec.describe '/articles', type: :request do
 
     context 'when some entities' do
       let!(:articles) { create_list :article, 5 }
+      let(:query) { {} }
+      let(:params) { { params: query } }
       let(:parsed_body) { JSON.parse(subject.body) }
-      before { get path }
+      before { get path, **params }
 
       it 'returns entities' do
         expect(subject.body).to eq(articles.to_json)
@@ -26,7 +28,7 @@ RSpec.describe '/articles', type: :request do
 
       context 'when ids filter' do
         let!(:id) { create(:article).id }
-        let(:path) { "/articles?filter_ids[]=#{id}" }
+        let(:query) { { filter_ids: [id] } }
 
         it 'returns correct article' do
           expect(Article.count).to eq(6)
@@ -37,7 +39,7 @@ RSpec.describe '/articles', type: :request do
 
       context 'when title_contains filter' do
         let!(:article) { create(:article, title: 'un1qu3 t1tl3') }
-        let(:path) { "/articles?filter_title_contains=#{article.title[1,5]}" }
+        let(:query) { { filter_title_contains: article.title[1, 5] } }
 
         it 'returns correct article' do
           expect(Article.count).to eq(6)
@@ -47,9 +49,9 @@ RSpec.describe '/articles', type: :request do
       end
 
       context 'when ordered by id desc' do
-        let(:path) { '/articles?order_by=id&order_direction=desc' }
+        let(:query) { { order_by: 'id', order_direction: 'desc' } }
 
-        it 'returns articles in correct order' do
+        it 'returns articles in correct order (desc)' do
           expect(Article.count).to eq(5)
           expect(parsed_body.map { |h| h['id'] }).to eq(Article.order(id: :desc).pluck(:id))
         end
@@ -156,6 +158,33 @@ RSpec.describe '/articles/:id', type: :request do
       let(:path) { not_found_path }
 
       it { is_expected.to have_http_status(:not_found) }
+    end
+  end
+end
+
+RSpec.describe '/article_url', type: :request do
+  let(:path) { '/article_url' }
+  let(:params) { { params: { q: query } } }
+  subject { response }
+
+  before(:each) { get path, **params }
+
+  context 'when article not found' do
+    let(:query) { 'record_not_found' }
+
+    it { is_expected.to have_http_status(:not_found) }
+  end
+
+  context 'when article found' do
+    let!(:article) { create(:article) }
+    let(:query) { article.url }
+
+    it { is_expected.to have_http_status(:ok) }
+
+    it 'returns correct article' do
+      parsed_body = JSON.parse(subject.body)
+
+      expect(parsed_body['id']).to eq(article.id)
     end
   end
 end
