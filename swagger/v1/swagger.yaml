@@ -97,6 +97,11 @@ paths:
       summary: retrieves all articles
       tags:
       - Articles
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
       responses:
         '200':
           description: lists articles

@@ -83,6 +83,7 @@ describe 'Articles API ' do
     get 'retrieves all articles' do
       tags 'Articles'
       produces 'application/json'
+      parameter name: :page, in: :query, type: :integer
 
       response '200', 'lists articles' do
         run_test!

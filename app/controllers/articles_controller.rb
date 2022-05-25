@@ -1,8 +1,9 @@
 class ArticlesController < ApplicationController
+  PER_PAGE = 10
 
   def index
     @articles = Article.all
-    render json: @articles
+    paginate json: @articles, per_page: PER_PAGE
   end
 
   def create
