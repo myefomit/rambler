@@ -4,6 +4,94 @@ info:
   title: API V1
   version: v1
 paths:
+  "/articles/{id}":
+    put:
+      summary: updates article
+      tags:
+      - Articles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: updated
+        '404':
+          description: not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                abstract:
+                  type: string
+                content:
+                  type: string
+                url:
+                  type: string
+                image_url:
+                  type: string
+                publish_date:
+                  type: string
+              required: true
+    delete:
+      summary: deletes article
+      tags:
+      - Articles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: deleted
+        '404':
+          description: not found
+    get:
+      summary: retrieves specific article
+      tags:
+      - Articles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: article found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  abstract:
+                    type: string
+                  content:
+                    type: string
+                  url:
+                    type: string
+                  image_url:
+                    type: string
+                  publish_date:
+                    type: string
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+        '404':
+          description: article not found
   "/articles":
     get:
       summary: retrieves all articles
@@ -11,7 +99,7 @@ paths:
       - Articles
       responses:
         '200':
-          description: list of articles
+          description: lists articles
     post:
       summary: creates an article
       tags:
