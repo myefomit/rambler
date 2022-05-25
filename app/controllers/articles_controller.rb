@@ -1,8 +1,10 @@
 class ArticlesController < ApplicationController
+  include Filterable
+
   PER_PAGE = 10
 
   def index
-    @articles = Article.all
+    @articles = apply_filters(Article.all, params)
     paginate json: @articles, per_page: PER_PAGE
   end
 
@@ -41,6 +43,10 @@ class ArticlesController < ApplicationController
   end
 
   private
+
+  def filters
+    { filter_ids: Array, title_contains: String }
+  end
 
   def article_params
     params.require(:article).permit(
