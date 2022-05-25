@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe '/articles', type: :request do
+  let(:path) { '/articles' }
+  subject { response }
+
   describe 'GET' do
-    let(:path) { '/articles' }
     before(:each) { get path }
-    subject { response }
 
     it { is_expected.to have_http_status(:success) }
 
@@ -26,10 +27,10 @@ RSpec.describe '/articles', type: :request do
 
   describe 'POST' do
     let(:params) { { params: { article: article_params } } }
+
     before(:each) do
-      post '/articles', **params
+      post path, **params
     end
-    subject { response }
 
     context 'when correct params' do
       let(:article_params) { attributes_for(:article) }
@@ -49,10 +50,12 @@ RSpec.describe '/articles', type: :request do
 end
 
 RSpec.describe '/articles/:id', type: :request do
+  let(:not_found_path) { '/articles/there_is_no_such_article' }
+  let(:path) { "/articles/#{article.id}" }
+  subject { response }
+
   describe 'PUT' do
     let(:params) { { params: { article: article_params } } }
-    let(:path) { "/articles/#{article.id}" }
-    subject { response }
 
     before(:each) do
       put path, **params
@@ -77,7 +80,7 @@ RSpec.describe '/articles/:id', type: :request do
       end
 
       context 'when article not found' do
-        let(:path) { '/articles/there_in_no_such_article' }
+        let(:path) { not_found_path }
 
         it { is_expected.to have_http_status(:not_found) }
       end
@@ -85,19 +88,40 @@ RSpec.describe '/articles/:id', type: :request do
   end
 
   describe 'DELETE' do
-    let(:path) { "/articles/#{article.id}" }
-    subject { response }
-
     before(:each) { delete path }
 
     context 'when article found' do
       let!(:article) { create(:article) }
 
       it { is_expected.to have_http_status(:no_content) }
+
+      it 'deletes article' do
+        expect { Article.find(article.id) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
 
     context 'when article not found' do
-      let(:path) { '/articles/there_in_no_such_article' }
+      let(:path) { not_found_path }
+
+      it { is_expected.to have_http_status(:not_found) }
+    end
+  end
+
+  describe 'GET' do
+    before(:each) { get path }
+
+    context 'when article found' do
+      let!(:article) { create(:article) }
+
+      it { is_expected.to have_http_status(:ok) }
+
+      it 'returns article json' do
+        expect(subject.body).to eq(article.to_json)
+      end
+    end
+
+    context 'when article not found' do
+      let(:path) { not_found_path }
 
       it { is_expected.to have_http_status(:not_found) }
     end
