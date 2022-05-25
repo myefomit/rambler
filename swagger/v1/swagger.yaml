@@ -1,0 +1,46 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/articles":
+    get:
+      summary: retrieves all articles
+      tags:
+      - Articles
+      responses:
+        '200':
+          description: list of articles
+    post:
+      summary: creates an article
+      tags:
+      - Articles
+      parameters: []
+      responses:
+        '201':
+          description: article created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                abstract:
+                  type: string
+                content:
+                  type: string
+                url:
+                  type: string
+                image_url:
+                  type: string
+                publish_date:
+                  type: string
+              required: true
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
