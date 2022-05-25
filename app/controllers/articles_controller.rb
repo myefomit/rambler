@@ -45,7 +45,7 @@ class ArticlesController < ApplicationController
   private
 
   def filters
-    { filter_ids: Array, title_contains: String }
+    { filter_ids: Array, filter_title_contains: String }
   end
 
   def article_params

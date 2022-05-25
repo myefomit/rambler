@@ -102,6 +102,15 @@ paths:
         in: query
         schema:
           type: integer
+      - name: filter_ids[]
+        in: query
+        collectionFormat: multi
+        schema:
+          type: array
+      - name: filter_title_contains
+        in: query
+        schema:
+          type: string
       responses:
         '200':
           description: lists articles

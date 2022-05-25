@@ -84,6 +84,8 @@ describe 'Articles API ' do
       tags 'Articles'
       produces 'application/json'
       parameter name: :page, in: :query, type: :integer
+      parameter name: :'filter_ids[]', in: :query, type: :array, collectionFormat: :multi
+      parameter name: :filter_title_contains, in: :query, type: :string
 
       response '200', 'lists articles' do
         run_test!
