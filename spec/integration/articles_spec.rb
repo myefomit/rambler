@@ -144,6 +144,13 @@ describe 'Articles API ' do
 
         run_test!
       end
+
+      response '422', 'cannot process' do
+        let!(:article_one) { create(:article) }
+        let(:article) { attributes_for :article, url: article_one.url }
+
+        run_test!
+      end
     end
   end
 end

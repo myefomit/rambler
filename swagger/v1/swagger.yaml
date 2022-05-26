@@ -265,6 +265,8 @@ paths:
                     type: string
                   updated_at:
                     type: string
+        '422':
+          description: cannot process
       requestBody:
         content:
           application/json:
