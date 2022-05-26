@@ -204,6 +204,12 @@ paths:
         required: false
         schema:
           type: array
+      - name: filter_tag_ids[]
+        in: query
+        collectionFormat: multi
+        required: false
+        schema:
+          type: array
       - name: filter_title_contains
         in: query
         required: false

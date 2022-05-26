@@ -6,4 +6,5 @@ class Article < ApplicationRecord
 
   scope :filter_ids, ->(ids) { where(id: ids) }
   scope :filter_title_contains, ->(substring) { where('title ILIKE ?', "%#{substring}%") }
+  scope :filter_tag_ids, ->(ids) { where(tags: { id: ids }) }
 end

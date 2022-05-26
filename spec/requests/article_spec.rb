@@ -26,6 +26,21 @@ RSpec.describe '/articles', type: :request do
         expect(subject.body).to eq(articles.to_json)
       end
 
+      context 'when filter_tag_ids' do
+        let!(:article) { create(:article) }
+        let!(:tag) { create(:tag) }
+        let!(:article_tag) { create :article_tag, article_id: article.id, tag_id: tag.id }
+        let(:query) { { filter_tag_ids: [tag.id] } }
+
+        before { get path, **params }
+
+        it 'returns correct article' do
+          expect(Article.count).to eq(6)
+          expect(parsed_body.count).to eq(1)
+          expect(parsed_body.first['id']).to eq(article.id)
+        end
+      end
+
       context 'when ids filter' do
         let!(:id) { create(:article).id }
         let(:query) { { filter_ids: [id] } }

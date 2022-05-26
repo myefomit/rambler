@@ -14,7 +14,7 @@ class ArticlesController < ApplicationController
   end
 
   def index
-    @articles = apply_filters(Article.all, params)
+    @articles = apply_filters(Article.includes(:tags), params)
     @articles = apply_order(@articles, params)
     paginate json: @articles, per_page: PER_PAGE
   end
@@ -56,7 +56,7 @@ class ArticlesController < ApplicationController
   private
 
   def filters
-    { filter_ids: Array, filter_title_contains: String }
+    { filter_ids: Array, filter_title_contains: String, filter_tag_ids: Array }
   end
 
   def orderers

@@ -111,6 +111,7 @@ describe 'Articles API ' do
       produces 'application/json'
       parameter name: :page, in: :query, type: :integer, required: false
       parameter name: :'filter_ids[]', in: :query, type: :array, collectionFormat: :multi, required: false
+      parameter name: :'filter_tag_ids[]', in: :query, type: :array, collectionFormat: :multi, required: false
       parameter name: :filter_title_contains, in: :query, type: :string, required: false
       parameter name: :order_by, in: :query, type: :string, required: false
       parameter name: :order_direction, in: :query, type: :string, required: false
