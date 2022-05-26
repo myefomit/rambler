@@ -2,19 +2,19 @@ class TagsController < ApplicationController
   PER_PAGE = 10
 
   def index
-    @tags = Tag.all
-    paginate json: @tags, per_page: PER_PAGE
+    tags = Tag.all
+    paginate json: tags, per_page: PER_PAGE
   end
 
   def create
-    @tag = Tag.create(tag_params)
-    render json: @tag, status: :created, location: tag_path(@tag)
+    tag = Tag.create(tag_params)
+    render json: tag, status: :created, location: tag_path(tag)
   end
 
   def update
-    @tag = Tag.find_by(id: params[:id])
-    if @tag
-      @tag.update(tag_params)
+    tag = Tag.find_by(id: params[:id])
+    if tag
+      tag.update(tag_params)
       render status: :no_content
     else
       render status: :not_found
@@ -22,9 +22,9 @@ class TagsController < ApplicationController
   end
 
   def destroy
-    @tag = Tag.find_by(id: params[:id])
-    if @tag
-      @tag.destroy
+    tag = Tag.find_by(id: params[:id])
+    if tag
+      tag.destroy
       render status: :no_content
     else
       render status: :not_found
