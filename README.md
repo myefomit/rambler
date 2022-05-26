@@ -1,24 +1,9 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Ruby 2.7.0
 
-Things you may want to cover:
+* Rails 7.0.3
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1) `Article` and `Tag` models have many to many relationship through `ArticleTag`
+2) There are CRUD endpoints for `Article`, `Tag`, `ArticleTag`
+3) All endpoints documented as Swagger spec at `/api-docs`
