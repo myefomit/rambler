@@ -5,38 +5,38 @@ class ArticlesController < ApplicationController
   PER_PAGE = 10
 
   def find_by_url
-    @article = Article.find_by(url: params[:q])
-    if @article
-      render json: @article, status: :ok
+    article = Article.find_by(url: params[:q])
+    if article
+      render json: article, status: :ok
     else
       render status: :not_found
     end
   end
 
   def index
-    @articles = apply_filters(Article.includes(:tags), params)
-    @articles = apply_order(@articles, params)
-    paginate json: @articles, per_page: PER_PAGE
+    articles = apply_filters(Article.includes(:tags), params)
+    articles = apply_order(articles, params)
+    paginate json: articles, per_page: PER_PAGE
   end
 
   def create
-    @article = Article.create(article_params)
-    render json: @article, status: :created, location: article_path(@article)
+    article = Article.create(article_params)
+    render json: article, status: :created, location: article_path(article)
   end
 
   def show
-    @article = Article.find_by(id: params[:id])
-    if @article
-      render json: @article, status: :ok
+    article = Article.find_by(id: params[:id])
+    if article
+      render json: article, status: :ok
     else
       render status: :not_found
     end
   end
 
   def update
-    @article = Article.find_by(id: params[:id])
-    if @article
-      @article.update(article_params)
+    article = Article.find_by(id: params[:id])
+    if article
+      article.update(article_params)
       render status: :no_content
     else
       render status: :not_found
@@ -44,9 +44,9 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    @article = Article.find_by(id: params[:id])
-    if @article
-      @article.destroy
+    article = Article.find_by(id: params[:id])
+    if article
+      article.destroy
       render status: :no_content
     else
       render status: :not_found

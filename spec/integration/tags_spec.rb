@@ -52,6 +52,7 @@ describe 'Tags API' do
     get 'retreieves all tags' do
       tags 'Tags'
       produces 'application/json'
+      parameter name: :page, in: :query, type: :string, required: false
 
       response '200', 'lists tags' do
         run_test!

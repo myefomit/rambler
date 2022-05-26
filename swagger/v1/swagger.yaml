@@ -25,6 +25,12 @@ paths:
       summary: retrieves all article_tags
       tags:
       - ArticleTags
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           description: lists article_tags
@@ -325,6 +331,12 @@ paths:
       summary: retreieves all tags
       tags:
       - Tags
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         '200':
           description: lists tags

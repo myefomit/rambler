@@ -22,6 +22,7 @@ describe 'ArticleTags API' do
     get 'retrieves all article_tags' do
       tags 'ArticleTags'
       produces 'application/json'
+      parameter name: :page, in: :query, type: :string, required: false
 
       response '200', 'lists article_tags' do
         run_test!

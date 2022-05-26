@@ -1,8 +1,9 @@
 class TagsController < ApplicationController
+  PER_PAGE = 10
 
   def index
     @tags = Tag.all
-    render json: @tags
+    paginate json: @tags, per_page: PER_PAGE
   end
 
   def create
